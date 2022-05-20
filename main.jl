@@ -50,4 +50,4 @@ title("counts vs distance from source")
 savefig("gammactsplot.png")
 savefig("gammactsplot.pdf")
 
-close(fig)
+close(f)
