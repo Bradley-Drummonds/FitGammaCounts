@@ -38,6 +38,16 @@ end
 a,σₐ,b,σb = fitcountstoline(dfcountswithy)
 
 line(a,b,x) = a * x + b
+f = figure()
 
+plot(dfcountswithy.x,dfcountswithy.y,color="blue",linewidth=2.0,linestyle="--")
 
-CSV.write("expandedgammacts.csv",dfcountswithx)
+xlabel(L"distance in m")
+ylabel(L"counts")
+
+title("counts vs distance from source")
+
+savefig("gammactsplot.png")
+savefig("gammactsplot.pdf")
+
+close(fig)
