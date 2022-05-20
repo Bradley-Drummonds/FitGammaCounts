@@ -32,7 +32,12 @@ function fitcountstoline(data)
     σₐ = sqrt(σₐ²)
     σb = sqrt(σb²)
     println("line fit with coefficients a:($a) and b:($b) uncertainy a:($σₐ) and b:($σb)")
+    return a,σₐ,b,σb
 end
 
-fitcountstoline(dfcountswithy)
+a,σₐ,b,σb = fitcountstoline(dfcountswithy)
+
+line(a,b,x) = a * x + b
+
+
 CSV.write("expandedgammacts.csv",dfcountswithx)
