@@ -55,7 +55,7 @@ end
 x = dfcountswithy.x 
 y = dfcountswithy.y
 
-function plotfittedgammacounts(x,y,model,filename)
+function plotfittedgammacounts(x,y,model,filename::String)
     f = figure()
 
     minx = minimum(x)
