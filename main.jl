@@ -52,16 +52,17 @@ y = dfcountswithy.y
 function plotfittedgammacounts(x,y,model,filename)
     f = figure()
 
-    minx = min(x)
-    maxx = max(x)
+    minx = minimum(x)
+    maxx = maximum(x)
 
     r = range(minx,maxx,length(x) * 2)
-    modely = model(Gamma_Line_Fit,x)
+    modelx = collect(r)
+    modely = model(Gamma_Line_Fit,modelx)
 
     plot(x,y,color="blue",linewidth=2.0,linestyle="--",
     marker="o", label=L"gamma counts")
-    plot(collect(r),modely, color="red",linewidth=2.0,linestyle="-",
-    marker="∇", label=L"fitted counts")
+    plot(modelx,modely, color="red",linewidth=2.0,linestyle="-",
+    marker="x", label=L"fitted counts")
 
     xlabel("distance in m")
     ylabel("counts")
@@ -74,3 +75,5 @@ function plotfittedgammacounts(x,y,model,filename)
 
     close(f)
 end
+
+plotfittedgammacounts(x,y,line,"gammacounts2")
