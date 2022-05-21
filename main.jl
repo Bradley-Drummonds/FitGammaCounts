@@ -41,10 +41,16 @@ struct Linefit
     σₐ
     b
     σb
+    function Linefit(a,siga,b,sigb)
+        println("a:$a,siga:$siga,b:$b,sigb:$sigb")
+        new(a,siga,b,sigb)
+    end
 end
 
-line(a,b,x) = @. a * x + b
-line(lf::Linefit,x) = @. lf.a * x + lf.b 
+line(a,b,x) = @. b * x + a
+function line(lf::Linefit,x)
+    @. lf.b * x + lf.a 
+end
 
 x = dfcountswithy.x 
 y = dfcountswithy.y
