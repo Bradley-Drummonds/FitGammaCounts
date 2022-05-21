@@ -31,23 +31,46 @@ function fitcountstoline(data)
 
     σₐ = sqrt(σₐ²)
     σb = sqrt(σb²)
-    println("line fit with coefficients a:($a) and b:($b) uncertainy a:($σₐ) and b:($σb)")
-    return a,σₐ,b,σb
+    #println("line fit with coefficients a:($a) and b:($b) uncertainy a:($σₐ) and b:($σb)")
+    return Linefit(a,σₐ,b,σb)
 end
 
-a,σₐ,b,σb = fitcountstoline(dfcountswithy)
+Gamma_Line_Fit = fitcountstoline(dfcountswithy)
+struct Linefit
+    a
+    σₐ
+    b
+    σb
+end
 
-line(a,b,x) = a * x + b
-f = figure()
+line(a,b,x) = @. a * x + b
+line(lf::Linefit,x) = @. lf.a * x + lf.b 
 
-plot(dfcountswithy.x,dfcountswithy.y,color="blue",linewidth=2.0,linestyle="--")
+x = dfcountswithy.x 
+y = dfcountswithy.y
 
-xlabel(L"distance in m")
-ylabel(L"counts")
+function plotfittedgammacounts(x,y,model,filename)
+    f = figure()
 
-title("counts vs distance from source")
+    minx = min(x)
+    maxx = max(x)
 
-savefig("gammactsplot.png")
-savefig("gammactsplot.pdf")
+    r = range(minx,maxx,length(x) * 2)
+    modely = model(Gamma_Line_Fit,x)
 
-close(f)
+    plot(x,y,color="blue",linewidth=2.0,linestyle="--",
+    marker="o", label=L"gamma counts")
+    plot(collect(r),modely, color="red",linewidth=2.0,linestyle="-",
+    marker="∇", label=L"fitted counts")
+
+    xlabel("distance in m")
+    ylabel("counts")
+
+    legend(loc="upper right",fontsize="x-large")
+
+    title("counts vs distance from source")
+
+    savefig(filename * ".png")
+
+    close(f)
+end
