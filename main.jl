@@ -11,6 +11,16 @@ CSV.write("gammacounts.csv",dfcounts)
 dfcountswithx = transform(dfcounts,:d => (x -> @. 1/x^2) => :x)
 dfcountswithy = transform(dfcountswithx,:C => (x -> x) => :y)
 
+struct Linefit
+    a
+    σₐ
+    b
+    σb
+    function Linefit(a,siga,b,sigb)
+        println("a:$a,siga:$siga,b:$b,sigb:$sigb")
+        new(a,siga,b,sigb)
+    end
+end
 function fitcountstoline(data)
     Δ = sum(@. 1/data.σ^2 )
     Δ = Δ * sum(@. data.x^2 / data.σ^2)
@@ -36,16 +46,7 @@ function fitcountstoline(data)
 end
 
 Gamma_Line_Fit = fitcountstoline(dfcountswithy)
-struct Linefit
-    a
-    σₐ
-    b
-    σb
-    function Linefit(a,siga,b,sigb)
-        println("a:$a,siga:$siga,b:$b,sigb:$sigb")
-        new(a,siga,b,sigb)
-    end
-end
+
 
 line(a,b,x) = @. b * x + a
 function line(lf::Linefit,x)
